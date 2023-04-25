@@ -26,9 +26,17 @@ class Field{
         } 
     }
 
+    //Checks if within field
+    isInField(position){
+        if(((this._Y > 6) || (this._Y < 0)) || (this._X > 3) || (this._X < 0)){
+            console.log("Stay in the field")
+        }
+    }
+
 
     //Check if win/lose/path
-    checkWinLose(position){
+    checkWinLose(){
+        let position = this._field[this._Y][this._X];
         switch(position){
             case hole:
                 console.log("You lose");
@@ -43,25 +51,34 @@ class Field{
 
     //Method for player movement
     movePlayer(movement){
-        switch(movement){
+        let movementToLower = movement.toLowerCase();
+        switch(movementToLower){
             case 'u':
                 this._Y -= 1;
                 console.log("moved up")
+                console.log(this._Y)
+                console.log(this._X)
             break;
             case 'd':
                 this._Y += 1;
                 console.log("moved down")
+                console.log(this._Y)
+                console.log(this._X)
             break;
             case 'l':
                 this._X -= 1;
                 console.log("moved left")
+                console.log(this._Y)
+                console.log(this._X)
             break;
             case 'r':
-                this._Y += 1;
+                this._X += 1;
                 console.log("moved right")
+                console.log(this._Y)
+                console.log(this._X)
             break;
             default:
-                Console.log("Invalid movement! Please choose again.")
+                console.log("Invalid movement! Remember: u = up, d = down, l = left, r = right")
         }
     }
 
@@ -88,17 +105,19 @@ const field1 = [
 
     const myField = new Field(field1);
 
-    myField.print();
+  
 
     function startGame(){
+        console.log((
+            `Let's Play!
+            Press 'U' to move up
+            Press 'D' to move down
+            Press 'L' to move left
+            Press 'R' to move right`))
         playing = true;
+        myField.print();
         while(playing){
-            let playerMove = prompt(
-                `Let's Play!
-                Press 'U' to move up
-                Press 'D' to move down
-                Press 'L' to move left
-                Press 'R' to move right`)
+            let playerMove = prompt(`Your move!`)
                 myField.movePlayer(playerMove)
                 myField.checkWinLose()
                 myField.print()
