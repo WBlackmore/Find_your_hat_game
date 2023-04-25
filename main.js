@@ -5,18 +5,13 @@ const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
 
-let playing = false;
+let currentlyPlaying = false;
 
 class Field{
     constructor(field){
         this._field = field;
         this._X = 0;
         this._Y = 0;
-    }
-
-    //returns current field
-    getField(){
-        return this._field;
     }
 
     //print field method
@@ -27,9 +22,10 @@ class Field{
     }
 
     //Checks if within field
-    isInField(position){
-        if(((this._Y > 6) || (this._Y < 0)) || (this._X > 3) || (this._X < 0)){
-            console.log("Stay in the field")
+    isInField(){
+        if(((this._Y > 6) || (this._Y < 0)) || (this._X > 4) || (this._X < 0)){
+            console.log("You left the field, you LOSE!")
+            currentlyPlaying = false;   
         }
     }
 
@@ -39,15 +35,17 @@ class Field{
         let position = this._field[this._Y][this._X];
         switch(position){
             case hole:
-                console.log("You lose");
+                console.log("You fell down a hole, you LOSE!");
+                currentlyPlaying = false;
                 break;
             case hat:
-                console.log("You win");
+                console.log("You foudn your hat, you WIN!!");
+                currentlyPlaying = false;
             case fieldCharacter:
                 this._field[this._Y][this._X] = pathCharacter;
         }
-
     }
+
 
     //Method for player movement
     movePlayer(movement){
@@ -81,8 +79,24 @@ class Field{
                 console.log("Invalid movement! Remember: u = up, d = down, l = left, r = right")
         }
     }
-
-
+    startGame(){
+        console.log((
+            `Let's Play!
+            Press 'U' to move up
+            Press 'D' to move down
+            Press 'L' to move left
+            Press 'R' to move right`))
+        currentlyPlaying = true;
+        myField.print();
+        while(currentlyPlaying){
+            let playerMove = prompt(`Your move!`)
+                myField.movePlayer(playerMove)
+                myField.isInField()
+                myField.checkWinLose()
+                myField.print()
+        }
+        
+    }
 }
 
 //field example
@@ -107,22 +121,6 @@ const field1 = [
 
   
 
-    function startGame(){
-        console.log((
-            `Let's Play!
-            Press 'U' to move up
-            Press 'D' to move down
-            Press 'L' to move left
-            Press 'R' to move right`))
-        playing = true;
-        myField.print();
-        while(playing){
-            let playerMove = prompt(`Your move!`)
-                myField.movePlayer(playerMove)
-                myField.checkWinLose()
-                myField.print()
-        }
-        
-    }
+    
 
-    startGame()
+   myField.startGame()
