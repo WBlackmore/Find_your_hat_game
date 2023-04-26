@@ -24,9 +24,9 @@ class Field {
   //Check if win/lose/path
   checkWinLose() {
     if (
-      this._Y > this._field.length ||
+      this._Y > this._field.length -1 ||
       this._Y < 0 ||
-      this._X > this._field[0].length ||
+      this._X > this._field[0].length -1 ||
       this._X < 0
     ) {
       console.log("You left the field, you LOSE!");
@@ -105,6 +105,9 @@ class Field {
     let y = Math.floor(Math.random() * arr.length);
     let x = Math.floor(Math.random() * arr[0].length);
     console.log(`x is ${x} y is ${y}`);
+    //Stops hat spawning on player
+    if(y === 0) y++;
+    if(x === 0) x++;
     arr[y][x] = hat;
   }
 
@@ -130,7 +133,7 @@ class Field {
 }
 
 //Generate a field array
-const myField1 = Field.generateField(9, 7, 75);
+const myField1 = Field.generateField(10, 20, 75);
 
 //Instantiate a new Fiel object using the field array
 const myField = new Field(myField1);
